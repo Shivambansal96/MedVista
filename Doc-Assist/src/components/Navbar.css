@@ -9,7 +9,7 @@ i {
     position: fixed;
     z-index: 5;
     /* top: 20px; */
-    /* border-bottom: solid 1px gray; */
+    border-bottom: solid 1px gray;
     /* border: solid 2px red; */
 
     /* background-color: aqua; */
@@ -29,6 +29,7 @@ i {
     font-weight: 500;
     /* background-color: rgb(120, 120, 120); */
     /* border: solid 2px red; */
+    border-right: solid 1px gray;
 }
 
 /* #logo .logo-1 {

@@ -25,7 +25,7 @@ const columns = (handleInfoClick, handleDeleteClick) => [
   },
   {
     field: 'icons',
-    headerName: 'Icons',
+    headerName: 'View',
     width: 100,
     renderCell: (params) => (
       <>
@@ -231,3 +231,5 @@ export default function DataTable() {
     </div>
   );
 }
+
+// export EnhancedTable;

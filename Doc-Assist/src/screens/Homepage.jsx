@@ -9,6 +9,7 @@ import Chart from '../components/Chart/Chart.jsx'
 import Table from '../components/Table/Table.jsx'
 import StackedAreaChart from '../components/EarningChart/EarningChart.jsx'
 import HorizontalBars from '../components/EarningChart/EarningChart.jsx'
+import DataTable from '../components/All_List/EnhancedTable.jsx'
 
 
 
@@ -125,7 +126,8 @@ const Homepage = () => {
 
                 <div id="bottom-table">
                     {/* table */}
-                    <Table />
+                    {/* <Table /> */}
+                    <DataTable />
                 </div>
 
 

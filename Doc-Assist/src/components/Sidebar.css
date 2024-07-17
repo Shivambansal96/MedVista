@@ -6,6 +6,7 @@
     /* padding: 0 3%; */
 
     width: 11.5%;
+    border-right: solid 1px gray;
 
     /* border: solid 2px red; */
 
@@ -59,19 +60,20 @@ a {
 #dashboard:hover, #dropDown-one:hover, #dropDown-two:hover, #dropDown-three:hover, #dropDown-four:hover, #dropDown-five:hover, #theme:hover {
     cursor: pointer;
     background-color: lightskyblue;
+    /* background-color: red; */
     font-style: italic;
 }
 
 #dashboard .active, #dropDown-one .active,
 #dropDown-two .active, #dropDown-three .active, #dropDown-four:active, #dropDown-five:active  {
     color: green;
-
     /* border-left: solid 3px green; */
     /* background-color: green; */
 }
 
-#patients-ul .active {
-    color: cyan;
+#patients-ul .active, #appointments-ul .active {
+    color: green;
+    font-weight: 500;
 }
 
 #theme {
