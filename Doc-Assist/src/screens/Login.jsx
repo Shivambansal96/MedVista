@@ -161,7 +161,7 @@ const Login = () => {
             
             <div className="dropdown-container">
               <label htmlFor="gender">Gender: </label>
-              <select id="gender" value={gender} onChange={handleGenderChange} className="input">
+              <select id="gender" value={gender} onChange={handleGenderChange} className="input" style={{padding: '3px'}}>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>

@@ -36,7 +36,7 @@
 
 #doctor_avatar img {
     height: 100%;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .form-container p, .form-container span {        
@@ -131,6 +131,9 @@
     color: white;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    text-align: center;
+    /* align-self: center; */
+    margin: auto;
   }
   
   .form-btn:active {
