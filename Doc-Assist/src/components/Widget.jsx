@@ -17,7 +17,7 @@ const Widget = ({type}) => {
             data = {
                 title: "New Appointments",
 
-                // widget_icon:  <i class="fa-solid fa-calendar-check" style={{color:'purple'}}></i>,
+                // widget_icon:  <i className="fa-solid fa-calendar-check" style={{color:'purple'}}></i>,
 
                 widget_icon : appointment_gif,
 
@@ -26,7 +26,7 @@ const Widget = ({type}) => {
                 state: true,
                 link: '26 are waiting',
                 
-                icon: <i class="fa-solid fa-caret-up" style={{color:'green'}}></i>                
+                icon: <i className="fa-solid fa-caret-up" style={{color:'green'}}></i>                
             }
             break;
 
@@ -34,7 +34,7 @@ const Widget = ({type}) => {
             data = {
                 title: "Total Patients",
 
-                // widget_icon:  <i class="fa-solid fa-user-doctor" style={{color:'yellowgreen'}}></i>,
+                // widget_icon:  <i className="fa-solid fa-user-doctor" style={{color:'yellowgreen'}}></i>,
                 widget_icon: patient_gif,
 
                 isMoney: false,
@@ -42,7 +42,7 @@ const Widget = ({type}) => {
                 state: true,
                 link: '150 increase',
                 
-                icon: <i class="fa-solid fa-caret-up" style={{color:'green'}}></i>                
+                icon: <i className="fa-solid fa-caret-up" style={{color:'green'}}></i>                
             }
             break;
 
@@ -51,7 +51,7 @@ const Widget = ({type}) => {
             data = {
                 title: "Successful Surgery",
 
-                // widget_icon:  <i class="fa-solid fa-bed-pulse" style={{color:'orangered'}}></i>,
+                // widget_icon:  <i className="fa-solid fa-bed-pulse" style={{color:'orangered'}}></i>,
 
                 widget_icon: surgery_gif,
 
@@ -60,7 +60,7 @@ const Widget = ({type}) => {
                 state: true,
                 link: '15 less this month',
                 
-                icon: <i class="fa-solid fa-caret-down" style={{color:'red'}}></i>                
+                icon: <i className="fa-solid fa-caret-down" style={{color:'red'}}></i>                
             }
             break;
 
@@ -71,7 +71,7 @@ const Widget = ({type}) => {
 
                 title: "Total Earnings",
            
-                // widget_icon:  <i class="fa-solid fa-money-check-dollar" style={{color:'skyblue'}}></i>,             
+                // widget_icon:  <i className="fa-solid fa-money-check-dollar" style={{color:'skyblue'}}></i>,             
                 widget_icon: earning_gif,
 
                 isMoney: true,
@@ -79,7 +79,7 @@ const Widget = ({type}) => {
                 state: true,
                 link: '36% increase',
                 
-                icon: <i class="fa-solid fa-caret-up" style={{color:'green'}}></i>                
+                icon: <i className="fa-solid fa-caret-up" style={{color:'green'}}></i>                
             }
             break;
 
@@ -106,7 +106,7 @@ const Widget = ({type}) => {
         </div>
 
         <div className="down">
-            {/* <i class="fa-solid fa-caret-up" ></i> */}
+            {/* <i className="fa-solid fa-caret-up" ></i> */}
             {data.icon}
 
             <span className='link'>{data.link}</span>

@@ -23,13 +23,13 @@ const Navbar = () => {
         <div className="right">
 
           <div id="nav_icons" className="flex_row">
-            <i class="fa-solid fa-bell"></i>
-            <i class="fa-solid fa-moon"></i>
+            <i className="fa-solid fa-bell"></i>
+            <i className="fa-solid fa-moon"></i>
           </div>
 
           <div id="doc_pic">
             <img src={docPic} alt="Image of Doc" />
-            {/* <i class="fa-solid fa-user"></i> */}
+            {/* <i className="fa-solid fa-user"></i> */}
 
             <div className="flex_col">
               <p>Name</p>

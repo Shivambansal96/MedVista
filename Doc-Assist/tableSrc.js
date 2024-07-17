@@ -1,0 +1,14 @@
+const initialRows = [
+    { id: 1, patientId: 'P001', name: 'John Doe', age: 28, gender: 'Male', department: 'Cardiology', date: '2024-07-16', time: '10:00 AM', doctor: 'Dr. Smith', doctorAvatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
+    { id: 2, patientId: 'P002', name: 'Jane Roe', age: 34, gender: 'Female', department: 'Neurology', date: '2024-07-16', time: '11:00 AM', doctor: 'Dr. Johnson', doctorAvatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
+    { id: 3, patientId: 'P003', name: 'Michael Smith', age: 45, gender: 'Male', department: 'Oncology', date: '2024-07-16', time: '12:00 PM', doctor: 'Dr. Brown', doctorAvatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
+    { id: 4, patientId: 'P004', name: 'Emily Davis', age: 29, gender: 'Female', department: 'Dermatology', date: '2024-07-16', time: '01:00 PM', doctor: 'Dr. Garcia', doctorAvatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
+    { id: 5, patientId: 'P005', name: 'Chris Johnson', age: 52, gender: 'Male', department: 'Orthopedics', date: '2024-07-16', time: '02:00 PM', doctor: 'Dr. Martinez', doctorAvatar: 'https://randomuser.me/api/portraits/men/5.jpg' },
+    { id: 6, patientId: 'P006', name: 'Patricia Lee', age: 38, gender: 'Female', department: 'Pediatrics', date: '2024-07-16', time: '03:00 PM', doctor: 'Dr. Hernandez', doctorAvatar: 'https://randomuser.me/api/portraits/women/6.jpg' },
+    { id: 7, patientId: 'P007', name: 'Robert Brown', age: 60, gender: 'Male', department: 'Geriatrics', date: '2024-07-16', time: '04:00 PM', doctor: 'Dr. Clark', doctorAvatar: 'https://randomuser.me/api/portraits/men/7.jpg' },
+    { id: 8, patientId: 'P008', name: 'Linda White', age: 47, gender: 'Female', department: 'Ophthalmology', date: '2024-07-16', time: '05:00 PM', doctor: 'Dr. Lewis', doctorAvatar: 'https://randomuser.me/api/portraits/women/8.jpg' },
+    { id: 9, patientId: 'P009', name: 'David Harris', age: 33, gender: 'Male', department: 'Urology', date: '2024-07-16', time: '06:00 PM', doctor: 'Dr. Walker', doctorAvatar: 'https://randomuser.me/api/portraits/men/9.jpg' },
+    { id: 10, patientId: 'P010', name: 'Barbara King', age: 41, gender: 'Female', department: 'Gynecology', date: '2024-07-16', time: '07:00 PM', doctor: 'Dr. Hall', doctorAvatar: 'https://randomuser.me/api/portraits/women/10.jpg' },
+    { id: 11, patientId: 'P011', name: 'Daniel Lee', age: 50, gender: 'Male', department: 'Gastroenterology', date: '2024-07-16', time: '08:00 PM', doctor: 'Dr. Allen', doctorAvatar: 'https://randomuser.me/api/portraits/men/11.jpg' },
+    { id: 12, patientId: 'P012', name: 'Susan Young', age: 27, gender: 'Female', department: 'ENT', date: '2024-07-16', time: '09:00 PM', doctor: 'Dr. Wright', doctorAvatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
+  ];

@@ -97,17 +97,17 @@ const Sidebar = () => {
 
     <div id="dashboard" >
         <NavLink to='/homepage'>
-            <i class="fa-solid fa-hospital-user"></i>
+            <i className="fa-solid fa-hospital-user"></i>
             <p>Dashboard</p> 
         </NavLink>
-        {/* <i class="fa-solid fa-angle-down"></i>   */}
+        {/* <i className="fa-solid fa-angle-down"></i>   */}
     </div>
 
 
     <div id="dropDown-one" onClick={dropDownOne}>
-        <i class="fa-solid fa-hospital-user"></i>
+        <i className="fa-solid fa-hospital-user"></i>
         <p>Patients</p> 
-        <i class="fa-solid fa-angle-down"></i>  
+        <i className="fa-solid fa-angle-down"></i>  
     </div>
 
         <ul id='patients-ul' ref={ddOne}>        
@@ -118,34 +118,33 @@ const Sidebar = () => {
 
 
     <div id="dropDown-two" onClick={dropDownTwo}>
-        <i class="fa-regular fa-calendar-check"></i>
+        <i className="fa-regular fa-calendar-check"></i>
         <p>Appointments</p>  
-        <i class="fa-solid fa-angle-down"></i>  
+        <i className="fa-solid fa-angle-down"></i>  
     </div>
 
         <ul id='appointments-ul' ref={ddTwo}> 
-            <li><NavLink to='/appointments-list'>Appointments List</NavLink></li>
+            <li><NavLink to='/appointment-list'>Appointment List</NavLink></li>
             
-            {/* <li><NavLink to='/pok'>pok</NavLink></li> */}
             <li><NavLink to='/new-list'>New List</NavLink></li>
         </ul>
 
     <div id="dropDown-three">
-        <i class="fa-regular fa-comment-dots"></i>
+        <i className="fa-regular fa-comment-dots"></i>
         <p>Message</p>  
-        {/* <i class="fa-solid fa-angle-down"></i>   */}
+        {/* <i className="fa-solid fa-angle-down"></i>   */}
     </div>
 
     <div id="dropDown-four">
-        <i class="fa-solid fa-file-prescription"></i>
+        <i className="fa-solid fa-file-prescription"></i>
         <p>Medications</p>  
-        {/* <i class="fa-solid fa-angle-down"></i>   */}
+        {/* <i className="fa-solid fa-angle-down"></i>   */}
     </div>
 
     <div id="dropDown-five">
-        <i class="fa-solid fa-wallet"></i>
+        <i className="fa-solid fa-wallet"></i>
         <p>Wallet</p>  
-        {/* <i class="fa-solid fa-angle-down"></i>   */}
+        {/* <i className="fa-solid fa-angle-down"></i>   */}
     </div>
 
       {/* <NavLink to='/homepage'>Appointments</NavLink> */}

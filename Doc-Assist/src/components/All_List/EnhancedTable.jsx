@@ -1,386 +1,195 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+import { DataGrid } from '@mui/x-data-grid';
+import { IconButton, Dialog, DialogContent, DialogContentText, DialogActions, Button, Avatar, Stack, Typography, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-// import './EnhancedTable.css'
-
-function createData(id, name, calories, fat, carbs, protein) {
-  return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-];
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
+const columns = (handleInfoClick, handleDeleteClick) => [
+  { field: 'patientId', headerName: 'Patient ID', width: 100 },
+  { field: 'name', headerName: 'Name', width: 150 },
+  { field: 'age', headerName: 'Age', type: 'number', width: 70 },
+  { field: 'gender', headerName: 'Gender', width: 100 },
+  { field: 'department', headerName: 'Department', width: 150 },
+  { field: 'date', headerName: 'Date', width: 120 },
+  { field: 'time', headerName: 'Time', width: 100 },
   {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
+    field: 'doctor',
+    headerName: 'Doctor',
+    width: 200,
+    renderCell: (params) => (
+      <Stack direction="row" spacing={1} alignItems="center" gap={1}>
+        <Avatar alt={params.row.doctor} src={params.row.doctorAvatar} />
+        {params.row.doctor}
+      </Stack>
+    ),
   },
   {
-    id: 'calories',
-    numeric: true,
-    disablePadding: false,
-    label: 'Calories',
-  },
-  {
-    id: 'fat',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fat (g)',
-  },
-  {
-    id: 'carbs',
-    numeric: true,
-    disablePadding: false,
-    label: 'Carbs (g)',
-  },
-  {
-    id: 'protein',
-    numeric: true,
-    disablePadding: false,
-    label: 'Protein (g)',
+    field: 'icons',
+    headerName: 'Icons',
+    width: 100,
+    renderCell: (params) => (
+      <>
+        <IconButton aria-label="info" onClick={() => handleInfoClick(params.row)}>
+          <InfoIcon />
+        </IconButton>
+        <IconButton aria-label="delete" onClick={() => handleDeleteClick(params.row.id)}>
+          <DeleteOutlineIcon />
+        </IconButton>
+      </>
+    ),
   },
 ];
 
-function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
+const initialRows = [
+  { id: 1, patientId: 'P001', name: 'John Doe', age: 28, gender: 'Male', department: 'Cardiology', date: '2024-07-16', time: '10:00 AM', doctor: 'Dr. Smith', doctorAvatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
+  { id: 2, patientId: 'P002', name: 'Jane Roe', age: 34, gender: 'Female', department: 'Neurology', date: '2024-07-16', time: '11:00 AM', doctor: 'Dr. Johnson', doctorAvatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
+  { id: 3, patientId: 'P003', name: 'Michael Smith', age: 45, gender: 'Male', department: 'Oncology', date: '2024-07-16', time: '12:00 PM', doctor: 'Dr. Brown', doctorAvatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
+  { id: 4, patientId: 'P004', name: 'Emily Davis', age: 29, gender: 'Female', department: 'Dermatology', date: '2024-07-16', time: '01:00 PM', doctor: 'Dr. Garcia', doctorAvatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
+  { id: 5, patientId: 'P005', name: 'Chris Johnson', age: 52, gender: 'Male', department: 'Orthopedics', date: '2024-07-16', time: '02:00 PM', doctor: 'Dr. Martinez', doctorAvatar: 'https://randomuser.me/api/portraits/men/5.jpg' },
+  { id: 6, patientId: 'P006', name: 'Patricia Lee', age: 38, gender: 'Female', department: 'Pediatrics', date: '2024-07-16', time: '03:00 PM', doctor: 'Dr. Hernandez', doctorAvatar: 'https://randomuser.me/api/portraits/women/6.jpg' },
+  { id: 7, patientId: 'P007', name: 'Robert Brown', age: 60, gender: 'Male', department: 'Geriatrics', date: '2024-07-16', time: '04:00 PM', doctor: 'Dr. Clark', doctorAvatar: 'https://randomuser.me/api/portraits/men/7.jpg' },
+  { id: 8, patientId: 'P008', name: 'Linda White', age: 47, gender: 'Female', department: 'Ophthalmology', date: '2024-07-16', time: '05:00 PM', doctor: 'Dr. Lewis', doctorAvatar: 'https://randomuser.me/api/portraits/women/8.jpg' },
+  { id: 9, patientId: 'P009', name: 'David Harris', age: 33, gender: 'Male', department: 'Urology', date: '2024-07-16', time: '06:00 PM', doctor: 'Dr. Walker', doctorAvatar: 'https://randomuser.me/api/portraits/men/9.jpg' },
+  { id: 10, patientId: 'P010', name: 'Barbara King', age: 41, gender: 'Female', department: 'Gynecology', date: '2024-07-16', time: '07:00 PM', doctor: 'Dr. Hall', doctorAvatar: 'https://randomuser.me/api/portraits/women/10.jpg' },
+  { id: 11, patientId: 'P011', name: 'Daniel Lee', age: 50, gender: 'Male', department: 'Gastroenterology', date: '2024-07-16', time: '08:00 PM', doctor: 'Dr. Allen', doctorAvatar: 'https://randomuser.me/api/portraits/men/11.jpg' },
+  { id: 12, patientId: 'P012', name: 'Susan Young', age: 27, gender: 'Female', department: 'ENT', date: '2024-07-16', time: '09:00 PM', doctor: 'Dr. Wright', doctorAvatar: 'https://randomuser.me/api/portraits/women/12.jpg' },
+];
+
+export default function DataTable() {
+  const [rows, setRows] = React.useState(initialRows);
+  const [filteredRows, setFilteredRows] = React.useState(initialRows);
+  const [selectedRow, setSelectedRow] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [filter, setFilter] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  React.useEffect(() => {
+    setFilteredRows(rows); // Reset filtered rows on rows change
+  }, [rows]);
+
+  React.useEffect(() => {
+    handleSearch(); // Filter results whenever filter or searchTerm changes
+  }, [filter, searchTerm]);
+
+  const handleInfoClick = (row) => {
+    setSelectedRow(row);
+    setOpen(true);
   };
 
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Patients List
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-}
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
-export default function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+  const handleDeleteClick = (id) => {
+    setRows(rows.filter((row) => row.id !== id));
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedRow(null);
+  };
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+    setSearchTerm(''); // Reset search term on filter change
+  };
+
+  const handleSearch = () => {
+    let filtered = rows;
+    if (filter && searchTerm) {
+      filtered = rows.filter((row) => {
+        switch (filter) {
+          case 'Name':
+            return row.name.toLowerCase().includes(searchTerm.toLowerCase());
+          case 'Age':
+            return row.age.toString().includes(searchTerm);
+          case 'Gender':
+            return row.gender.toLowerCase().includes(searchTerm.toLowerCase());
+          case 'Department':
+            return row.department.toLowerCase().includes(searchTerm.toLowerCase());
+          case 'Date':
+            return row.date.includes(searchTerm);
+          case 'Doctor':
+            return row.doctor.toLowerCase().includes(searchTerm.toLowerCase());
+          default:
+            return true;
+        }
+      });
     }
-    setSelected([]);
+    setFilteredRows(filtered);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
-    setSelected(newSelected);
   };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+    <div style={{ height: 675, width: '100%', padding: '0 2%', paddingTop: '3%' }}>
+      <Stack direction="row" spacing={2} alignItems="center" marginBottom={2}>
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel id="filter-label">Filter By</InputLabel>
+          <Select
+            labelId="filter-label"
+            value={filter}
+            onChange={handleFilterChange}
+            label="Filter By"
           >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+            <MenuItem value="Name">Name</MenuItem>
+            <MenuItem value="Age">Age</MenuItem>
+            <MenuItem value="Gender">Gender</MenuItem>
+            <MenuItem value="Department">Department</MenuItem>
+            <MenuItem value="Date">Date</MenuItem>
+            <MenuItem value="Doctor">Doctor</MenuItem>
+          </Select>
+        </FormControl>
+        {filter && (
+          <>
+            <TextField
+              variant="outlined"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+            <Button variant="contained" color="primary" onClick={handleSearch}>
+              Search
+            </Button>
+          </>
+        )}
+      </Stack>
+      <DataGrid
+        rows={filteredRows}
+        columns={columns(handleInfoClick, handleDeleteClick)}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
       />
-    </Box>
+      <Dialog open={open} onClose={handleClose} sx={{ '& .MuiDialog-paper': { width: '400px', height: '420px' } }}>
+        <h1 style={{ textAlign: 'center', padding: '2%', fontWeight: '500' }}>Patient Information</h1>
+        {selectedRow && (
+          <DialogContent>
+            <Stack direction="row" spacing={3} alignItems="center">
+              <Avatar alt={selectedRow.name} src={selectedRow.doctorAvatar} sx={{ width: 56, height: 56 }} />
+              <Typography variant="h5">{selectedRow.name}</Typography>
+            </Stack>
+            <br />
+            <DialogContentText>
+              <strong>Patient ID:</strong> {selectedRow.patientId}<br />
+              <strong>Age:</strong> {selectedRow.age}<br />
+              <strong>Gender:</strong> {selectedRow.gender}<br />
+              <strong>Department:</strong> {selectedRow.department}<br />
+              <strong>Date:</strong> {selectedRow.date}<br />
+              <strong>Time:</strong> {selectedRow.time}<br />
+              <strong>Doctor:</strong> {selectedRow.doctor}<br />
+            </DialogContentText>
+          </DialogContent>
+        )}
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
